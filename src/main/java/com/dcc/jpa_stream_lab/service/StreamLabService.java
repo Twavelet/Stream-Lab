@@ -122,8 +122,8 @@ public class StreamLabService {
         // Write a query that retrieves all of the products in the shopping cart of the user who has the email "afton@gmail.com".
         // Return the list
         User user = users.findAll().stream().filter(u -> u.getEmail().equals("afton@gmail.com")).findFirst().orElse(null);
-        ShoppingcartItem userCart = shoppingcartitems.findAll().stream().filter(s -> s.getUser().equals(user)).findFirst().orElse(null);
-        List<Product> productsInCart = products.findAll().stream().filter(p -> p.getShoppingcartItems().contains(userCart)).toList();
+        List <ShoppingcartItem> userCart = shoppingcartitems.findAll().stream().filter(s -> s.getUser().equals(user)).toList();
+        List<Product> productsInCart = userCart.stream().map(p -> p.getProduct()).toList();
 
 
     	return productsInCart;
@@ -134,8 +134,8 @@ public class StreamLabService {
         // Write a query that retrieves all of the products in the shopping cart of the user who has the email "oda@gmail.com" and returns the sum of all of the products prices.
     	// Remember to break the problem down and take it one step at a time!
         User user = users.findAll().stream().filter(u -> u.getEmail().equals("oda@gmail.com")).findFirst().orElse(null);
-        ShoppingcartItem userCart = shoppingcartitems.findAll().stream().filter(s -> s.getUser().equals(user)).findFirst().orElse(null);
-        List<Product> productsInCart = products.findAll().stream().filter(p -> p.getShoppingcartItems().contains(userCart)).toList();
+        List <ShoppingcartItem> userCart = shoppingcartitems.findAll().stream().filter(s -> s.getUser().equals(user)).toList();
+        List<Product> productsInCart = userCart.stream().map(p -> p.getProduct()).toList();
         Long TotalProductsInCart = productsInCart.stream().count();
 
 
@@ -150,9 +150,8 @@ public class StreamLabService {
     	// Return the list
 
         Role employeeRole = roles.findAll().stream().filter(r -> r.getName().equals("Employee")).findFirst().orElse(null);
-        User employee = users.findAll().stream().filter(u -> u.getRoles().contains(employeeRole)).findFirst().orElse(null);
-        ShoppingcartItem userCart = shoppingcartitems.findAll().stream().filter(s -> s.getUser().equals(employee)).findFirst().orElse(null);
-        List<Product> employeeProductsInCart = products.findAll().stream().filter(p -> p.getShoppingcartItems().contains(userCart)).toList();
+        List <ShoppingcartItem> userCart = shoppingcartitems.findAll().stream().filter(s -> s.getUser().getRoles().contains(employeeRole)).toList();
+        List<Product> employeeProductsInCart = userCart.stream().map(p -> p.getProduct()).toList();
 
         return employeeProductsInCart;
     }
