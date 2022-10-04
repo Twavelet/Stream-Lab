@@ -112,9 +112,9 @@ public class StreamLabService {
         // Write a query that retrieves all of the users who are assigned to the role of Customer.
     	Role customerRole = roles.findAll().stream().filter(r -> r.getName().equals("Employee")).findFirst().orElse(null);
     	List<User> customers = users.findAll().stream().filter(u -> u.getRoles().contains(customerRole)).toList();
-        List<User> user = users.findAll().stream().filter(u -> u.getEmail().equals("afton@gmail.com")).toList();
+//        List<User> user = users.findAll().stream().filter(u -> u.getEmail().equals("afton@gmail.com")).toList();
 
-    	return user;
+    	return customers;
     }
 
     public List<Product> RProblemSix()
@@ -151,9 +151,10 @@ public class StreamLabService {
 
         Role employeeRole = roles.findAll().stream().filter(r -> r.getName().equals("Employee")).findFirst().orElse(null);
         User employee = users.findAll().stream().filter(u -> u.getRoles().contains(employeeRole)).findFirst().orElse(null);
-        List<Product> employeeCart = products.findAll().stream().filter(p -> p.getShoppingcartItems().contains(employee)).toList();
+        ShoppingcartItem userCart = shoppingcartitems.findAll().stream().filter(s -> s.getUser().equals(employee)).findFirst().orElse(null);
+        List<Product> employeeProductsInCart = products.findAll().stream().filter(p -> p.getShoppingcartItems().contains(userCart)).toList();
 
-        return employeeCart;
+        return employeeProductsInCart;
     }
 
     // <><><><><><><><> CUD (Create, Update, Delete) Actions <><><><><><><><><>
